@@ -193,18 +193,23 @@ class _MyExpanableCardViewFlutterState
                 //subtitle: Text("  Explore the world of H-D"),
                 children: <Widget>[
                   ListTile(
-                    leading: Icon(Icons.location_on,
-                        color: Colors.blue.shade700),
+                    leading:
+                        Icon(Icons.location_on, color: Colors.blue.shade700),
                     title: Text('Coordonnées GPS :',
                         style: TextStyle(
                           color: Colors.blue.shade700,
                           fontWeight: FontWeight.bold,
                         )),
-                    subtitle: Text('LAT: ${_currentPosition.latitude.toStringAsFixed(5)}, LONG: ${_currentPosition.longitude.toStringAsFixed(5)}',
-                    style: TextStyle(
-                      color: Colors.blue.shade700,
-
-                    ),),
+                    subtitle: _currentPosition == null
+                        ? Center(
+                            child: LinearProgressIndicator(),
+                          )
+                        : Text(
+                            'LAT: ${_currentPosition.latitude.toStringAsFixed(5)}, LONG: ${_currentPosition.longitude.toStringAsFixed(5)}',
+                            style: TextStyle(
+                              color: Colors.blue.shade700,
+                            ),
+                          ),
                   ),
 
                   ListTile(
@@ -213,6 +218,7 @@ class _MyExpanableCardViewFlutterState
                     title: Text('Coordonnées What3Words :',
                         style: TextStyle(
                           color: Colors.blue.shade700,
+                          fontWeight: FontWeight.bold,
                         )),
                   ),
                   ListTile(
