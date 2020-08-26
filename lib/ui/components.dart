@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+//import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
-//import 'location.dart';
 
 //Horizontal line component
 class Divide extends StatelessWidget {
@@ -134,28 +134,26 @@ class _MyExpanableCardViewFlutterState
 
   Position _currentPosition;
 
+  String _currentAddress;
+
   //get newPlace => null;
-
-
 
   @override
   Widget build(BuildContext context) {
     _getCurrentLocation();
+    _getAddressFromLatLng();
     return Padding(
       padding: const EdgeInsets.fromLTRB(12.0, 8.0, 12.0, 8.0),
       child: Container(
         child: Card(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0)
-          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
           elevation: 15,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-
               ExpansionTile(
-                leading: Icon(Icons.looks_one,
-                    color: Colors.blue.shade700),
+                leading: Icon(Icons.looks_one, color: Colors.blue.shade700),
                 title: Text("Se présenter".toUpperCase(),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -194,7 +192,7 @@ class _MyExpanableCardViewFlutterState
                 children: <Widget>[
                   ListTile(
                     leading:
-                        Icon(Icons.location_on, color: Colors.blue.shade700),
+                    Icon(Icons.location_on, color: Colors.blue.shade700),
                     title: Text('Coordonnées GPS :',
                         style: TextStyle(
                           color: Colors.blue.shade700,
@@ -202,14 +200,16 @@ class _MyExpanableCardViewFlutterState
                         )),
                     subtitle: _currentPosition == null
                         ? Center(
-                            child: LinearProgressIndicator(),
-                          )
+                      child: LinearProgressIndicator(),
+                    )
                         : Text(
-                            'LAT: ${_currentPosition.latitude.toStringAsFixed(5)}, LONG: ${_currentPosition.longitude.toStringAsFixed(5)}',
-                            style: TextStyle(
-                              color: Colors.blue.shade700,
-                            ),
-                          ),
+                      'LAT: ${_currentPosition.latitude.toStringAsFixed(
+                          5)}, LONG: ${_currentPosition.longitude
+                          .toStringAsFixed(5)}',
+                      style: TextStyle(
+                        color: Colors.blue.shade700,
+                      ),
+                    ),
                   ),
 
                   ListTile(
@@ -226,9 +226,21 @@ class _MyExpanableCardViewFlutterState
                         color: Colors.blue.shade700),
                     title: Text('Adresse postale :',
                         style: TextStyle(
+                          fontWeight: FontWeight.bold,
                           color: Colors.blue.shade700,
                         )),
-                  ),
+                    subtitle: _currentAddress == null
+                        ? Text("Geocoding de l'adresse en cours",
+                        style: TextStyle(
+                          color: Colors.blue.shade700,
+                        ))
+
+                        : Text('$_currentAddress',
+                      style: TextStyle(
+                        color: Colors.blue.shade700,
+                      ),
+                    ),
+                  )
                 ],
               ),
               ExpansionTile(
@@ -295,7 +307,10 @@ class _MyExpanableCardViewFlutterState
                 //subtitle: Text("  Explore the world of H-D"),
                 children: <Widget>[
                   Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 70.0),
                       child: Text('Un bilan par victime',
@@ -317,7 +332,8 @@ class _MyExpanableCardViewFlutterState
                   ListTile(
                     leading: Icon(Icons.location_on,
                         color: Colors.blue.shade700),
-                    title: Text('La victime est-elle consciente (elle réagit quand stimulée)',
+                    title: Text(
+                        'La victime est-elle consciente (elle réagit quand stimulée)',
                         style: TextStyle(
                           color: Colors.blue.shade700,
                         )),
@@ -346,6 +362,7 @@ class _MyExpanableCardViewFlutterState
       ),
     );
   }
+
   _getCurrentLocation() {
     final Geolocator geolocator = Geolocator()
       ..forceAndroidLocationManager;
@@ -360,6 +377,26 @@ class _MyExpanableCardViewFlutterState
     }).catchError((e) {
       print(e);
     });
+  }
+
+
+  _getAddressFromLatLng() async {
+    //String Address;
+    try {
+      List<Placemark> p = await Geolocator().placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+
+      Placemark place = p[0];
+
+      setState(() {
+        _currentAddress =
+        "${place.thoroughfare}, ${place.postalCode}, ${place.locality}";
+      });
+
+      print(_currentAddress);
+    } catch (e) {
+      print(e);
+    }
   }
 }
 
