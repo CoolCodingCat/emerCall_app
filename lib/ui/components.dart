@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-//import 'package:geolocator/geolocator.dart';
+import 'package:geolocator/geolocator.dart';
+//import 'location.dart';
 
 //Horizontal line component
 class Divide extends StatelessWidget {
@@ -123,6 +124,7 @@ class _CallButton extends State<CallButton> {
 }
 
 class MyExpanableCardViewFlutter extends StatefulWidget {
+
   @override
   _MyExpanableCardViewFlutterState createState() =>
       _MyExpanableCardViewFlutterState();
@@ -130,8 +132,15 @@ class MyExpanableCardViewFlutter extends StatefulWidget {
 class _MyExpanableCardViewFlutterState
     extends State<MyExpanableCardViewFlutter> {
 
+  Position _currentPosition;
+
+  //get newPlace => null;
+
+
+
   @override
   Widget build(BuildContext context) {
+    _getCurrentLocation();
     return Padding(
       padding: const EdgeInsets.fromLTRB(12.0, 8.0, 12.0, 8.0),
       child: Container(
@@ -174,7 +183,6 @@ class _MyExpanableCardViewFlutterState
                 ],
               ),
               ExpansionTile(
-
                 leading: Icon(Icons.looks_two,
                     color: Colors.blue.shade700),
                 title: Text("Se localiser".toUpperCase(),
@@ -185,12 +193,23 @@ class _MyExpanableCardViewFlutterState
                 //subtitle: Text("  Explore the world of H-D"),
                 children: <Widget>[
                   ListTile(
-                    leading: Icon(Icons.location_on,
-                        color: Colors.blue.shade700),
+                    leading:
+                        Icon(Icons.location_on, color: Colors.blue.shade700),
                     title: Text('Coordonnées GPS :',
                         style: TextStyle(
                           color: Colors.blue.shade700,
+                          fontWeight: FontWeight.bold,
                         )),
+                    subtitle: _currentPosition == null
+                        ? Center(
+                            child: LinearProgressIndicator(),
+                          )
+                        : Text(
+                            'LAT: ${_currentPosition.latitude.toStringAsFixed(5)}, LONG: ${_currentPosition.longitude.toStringAsFixed(5)}',
+                            style: TextStyle(
+                              color: Colors.blue.shade700,
+                            ),
+                          ),
                   ),
 
                   ListTile(
@@ -199,6 +218,7 @@ class _MyExpanableCardViewFlutterState
                     title: Text('Coordonnées What3Words :',
                         style: TextStyle(
                           color: Colors.blue.shade700,
+                          fontWeight: FontWeight.bold,
                         )),
                   ),
                   ListTile(
@@ -326,4 +346,23 @@ class _MyExpanableCardViewFlutterState
       ),
     );
   }
+  _getCurrentLocation() {
+    final Geolocator geolocator = Geolocator()
+      ..forceAndroidLocationManager;
+
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+        print(position);
+      });
+    }).catchError((e) {
+      print(e);
+    });
+  }
 }
+
+
+
+

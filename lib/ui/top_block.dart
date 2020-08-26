@@ -39,7 +39,7 @@ class BlockTop extends StatelessWidget {
                         height: 50,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.green.shade200,
+                          color: Colors.green.shade400,
                         ),
                         child: Center(
                           child: Text('15', style:
@@ -72,7 +72,7 @@ class BlockTop extends StatelessWidget {
                         decoration: BoxDecoration(
 
                           shape: BoxShape.circle,
-                          color: Colors.red.shade100,
+                          color: Colors.red.shade400,
 
                         ),
                         child: Center(
@@ -106,7 +106,7 @@ class BlockTop extends StatelessWidget {
                         decoration: BoxDecoration(
 
                           shape: BoxShape.circle,
-                          color: Colors.blueAccent.shade100,
+                          color: Colors.blueAccent.shade400,
 
                         ),
                         child: Center(
@@ -140,7 +140,7 @@ class BlockTop extends StatelessWidget {
                         decoration: BoxDecoration(
 
                           shape: BoxShape.circle,
-                          color: Colors.deepPurpleAccent,
+                          color: Colors.orange,
 
                         ),
                         child: Center(
