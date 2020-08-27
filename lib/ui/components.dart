@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 //Horizontal line component
 class Divide extends StatelessWidget {
@@ -78,9 +79,11 @@ class CallButtonCall extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 )),
-            onPressed: () => {
-              debugPrint("Don't Stop Me Now")
-            },
+            //onPressed: () => {
+            //0623752864
+            onPressed: () => launch("tel://0623752864"),
+            //debugPrint("Don't Stop Me Now")
+            //},
             splashColor: Color(0xff21D4FD),
           )
       ),
@@ -230,7 +233,7 @@ class _MyExpanableCardViewFlutterState
                           color: Colors.blue.shade700,
                         )),
                     subtitle: _currentAddress == null
-                        ? Text("Geocoding de l'adresse en cours",
+                        ? Text("Récupération de l'adresse en cours",
                         style: TextStyle(
                           color: Colors.blue.shade700,
                         ))
