@@ -230,7 +230,7 @@ class _MyExpanableCardViewFlutterState
                           color: Colors.blue.shade700,
                         )),
                     subtitle: _currentAddress == null
-                        ? Text("Geocoding de l'adresse en cours",
+                        ? Text("Récupération de l'adresse en cours",
                         style: TextStyle(
                           color: Colors.blue.shade700,
                         ))
