@@ -40,7 +40,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/emercall.png"
+  image_path: "assets/red_line.png"
 
 
 # For information on the generic Dart part of this file, see the
